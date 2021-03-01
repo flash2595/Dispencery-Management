@@ -1,0 +1,128 @@
+﻿
+<div class="wrapper row1">
+    <header id="header" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <div id="logo" class="fl_left">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/images/logo.png" style="width:100px;height:100px;">
+                <h1>
+                   GOODWILL DISPENSARY
+                </h1>
+            </a>
+        </div>
+
+        <div id="quickinfo" class="fl_right">
+            <p style="margin-bottom:10px">
+                <strong> PROJECT BY:-</strong>
+                <div style="float: left;">
+                    <li> Akash Nangare</li>
+                    <li> Nikita kohle</li>
+                </div>
+                <div style="float: right;">
+                    <li> Suyog Sawke</li>
+                    <li>Prathamesh Naik</li>
+                </div>
+            </p>
+
+            <ul class="nospace inline">
+                <li>
+                    <strong>Office contact:</strong><br>
+                    +91 22 1234 5678
+                </li>
+                <li>
+                    <strong>Staff contact:</strong><br>
+                    +91 79 7748 4138
+                </li>
+            </ul>
+        </div>
+        <!-- ################################################################################################ -->
+    </header>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row2">
+    <nav id="mainav" class="hoc clear">
+        <!-- ################################################################################################ -->
+        <ul class="clear">
+            <li>
+                @Html.ActionLink("Home", "Index", "Home", null, null)
+            </li>
+            <li>
+                <a class="drop" href="#">Pages</a>
+                <ul>
+                    <li>
+                        @Html.ActionLink("FAQ", "FAQ", "FAQ", null, null)
+                    </li>
+                    <li>
+                        @Html.ActionLink("ABOUT", "About", "FAQ", null, null)
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a class="drop" href="#">Management</a>
+                <ul>
+                    @if (User.IsInRole("Doctor") || User.IsInRole("Assitant_Doctor") || User.IsInRole("Nurse_Head") || User.IsInRole("Nurse"))
+                    {
+                        <li>
+                            @Html.ActionLink("Bill", "Index", "BillGeneration", null, null)
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Doctor") || User.IsInRole("Assitant_Doctor"))
+                    {
+                        <li>
+                            @Html.ActionLink("Chart", "Index", "PieChart", null, null)
+                        </li>
+                    }
+
+                    <li>
+                        <a class="drop">User Section</a>
+                        <ul>
+                            @if (User.IsInRole("Doctor") || User.IsInRole("Assitant_Doctor") || User.IsInRole("Nurse_Head") || User.IsInRole("Nurse") || User.IsInRole("Ward_Boy"))
+                            {
+                                <li>
+                                    @Html.ActionLink("Patient section", "Index", "Patient", null, null)
+                                </li>
+                            }
+
+                            <li>
+                                @Html.ActionLink("Staff Members", "Index", "Staff", null, null)
+                            </li>
+                            @if (User.IsInRole("Doctor") || User.IsInRole("Assitant_Doctor") || User.IsInRole("Nurse_Head"))
+                            {
+                                <li>
+                                    @Html.ActionLink("New Course Order", "Index", "NewOrder", null, null)
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        @Html.ActionLink("Dispencery Items", "Index", "Dispencery", null, null)
+
+                    </li>
+                </ul>
+            </li>
+            <li>
+                &nbsp;
+            </li>
+            <li>
+                &nbsp;
+            </li>
+            <li>
+                &nbsp;
+            </li>
+            <li>
+                &nbsp;
+            </li>
+            <li>
+                &nbsp;
+            </li>
+            @Html.Partial("_LoginPartial")
+        </ul>
+        <!-- ################################################################################################ -->
+    </nav>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->

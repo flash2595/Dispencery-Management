@@ -1,0 +1,17 @@
+﻿@model DispenceryManagement.Models.Patient
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ 
+    var AgeCount = DateTime.Today.Year - Model.DateOfBirth.Year;
+}
+<h2>Details</h2>
+
+<h2>@Model.Name</h2>
+<ul>
+    <li>Address : @Model.Address</li>
+    <li>Membership Type : @Model.MembershipTypeCustomer.MedicineType</li>
+    <li>Date Of Birth : @Model.DateOfBirth.ToString("dd-MMM-yyyy") ,@Model.DateOfBirth.DayOfWeek</li>
+    <li>Age : @AgeCount</li>
+</ul>

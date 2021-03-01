@@ -1,0 +1,50 @@
+﻿@model IEnumerable<DispenceryManagement.Models.PurchaseCourse>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="hoc container clear">
+    <h2>Generate Bill and Search Bill</h2>
+    @if (!Model.Any())
+    {
+        <p>We don't have any customers yet.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover" id="BillGenerationTable">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Address</th>
+                    <th>Date</th>
+                    <th>Generate PDF</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model)
+                {
+                    <tr>
+                        <td>@customer.Patients.Name</td>
+                        <td>@customer.Patients.Address</td>
+                        <td>@customer.PurchaseDate</td>
+                        <td>
+                            @Html.ActionLink("Generate Pdf " + customer.BillNo + ""
+                       , "CreatePdf"
+                       , "BillGeneration"
+                       , new { id = customer.BillNo }
+                       , new { Style = "color: blue;text-decoration: underline;" })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</section>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#BillGenerationTable").DataTable();
+            });
+    </script>
+}

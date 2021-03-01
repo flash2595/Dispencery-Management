@@ -1,0 +1,113 @@
+﻿LabelCSSTop {
+    color: #B4886B;
+    font-weight: bold;    
+    float: left;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    opacity:1;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+#socialLoginList{
+    max-width:100%;
+}
+
+.row{
+    width:100%;
+}
+
+label{
+    font-size:large;
+}
+
+.form-control {
+    background-color: #F8F8F8;
+    margin-bottom: 10px;
+    width: 20%;
+    font-size: 1.7rem;
+}
+
+h1, h2, h3, h4, h5, h6, .heading {
+    font-style:normal;
+}
+
+p {
+    margin-bottom: 20px;    
+}
+
+.btn-link {
+    font-weight: bolder;
+    color: #fff;
+    background-color: #0069A8;
+    width: 50%;
+}
+
+    .btn-link:hover {
+        color: #212529;
+        text-decoration: underline;
+        background-color: transparent;
+        border-color: #0069A8;
+    }
+
+.pagination {
+    text-align: inherit;
+}
+
+th {
+    background-color: #0069A8;
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(2.25rem + 10px);
+}
+
+.btn {
+    font-size:1.7rem;
+}
+
+#mainav li {
+    font-size: large;
+}
+
+#header #quickinfo strong {
+    display: block;
+    margin: 0 0 5px 0;
+    padding: 0;
+    font-size: 1.3rem;
+}
+
+#header #quickinfo li {
+    margin-right: 50px;
+    margin-bottom: 5px;
+    font-size: small;
+}
+
+.field-validation-error,
+label.error {
+    color: red;
+}
+
+.input-validation-error,
+input.error {
+    border: 2px solid red;
+} 

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DispenceryManagement.Models.Patient>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="hoc container clear">
+    <h2>Patients</h2>
+    @if (!Model.Any())
+    {
+        <p>We don't have any customers yet.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover" id="PatientListTable">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th> Age </th>
+                    <th>City</th>
+                    <th>Medicine Type</th>
+                    <th>Discount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(customer.Name, "Details", "Patient", new { id = customer.Id }, null)</td>
+                        <td>@Html.Raw(DateTime.Now.Year - customer.DateOfBirth.Year)</td>
+                        <td>@customer.Address</td>
+                        @if (customer.MembershipTypeId == 3)
+                        {
+                            <td>@customer.MembershipTypeCustomer.MedicineType</td>
+                        }
+                        else if (customer.MembershipTypeId > 1)
+                        {
+                            <td>@customer.MembershipTypeCustomer.MedicineType</td>
+                        }
+                        else
+                        {
+                            <td>@customer.MembershipTypeCustomer.MedicineType</td>
+                        }
+
+                        <td>@customer.MembershipTypeCustomer.DiscountRate %  </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#PatientListTable").DataTable();
+        });
+
+    </script>
+    }

@@ -1,0 +1,32 @@
+﻿@model DispenceryManagement.ViewModel.DispenceryItemFormViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="hoc container clear">
+
+    <h2>New Dispensary Item</h2>
+    @using (Html.BeginForm("Save", "Dispencery"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.DispenceryItem.DispenceryItemName)
+            @Html.TextBoxFor(m => m.DispenceryItem.DispenceryItemName, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DispenceryItem.DispenceryItemPrice)
+            @Html.TextBoxFor(m => m.DispenceryItem.DispenceryItemPrice, new { @class = "form-control", type="number",min="1" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DispenceryItem.dispenceryTypeId)
+            @Html.DropDownListFor(m => m.DispenceryItem.DispenceryItemType, new SelectList(Model.DispenceryTypes, "Name", "Name"), "Enter Dispencery Type", new { @class = "form-control" })
+        </div>
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.DispenceryItem.IsGeneric) Subscribed to Generic ?
+            </label>
+        </div>
+        @Html.HiddenFor(m => m.DispenceryItem.Id)
+        @Html.HiddenFor(m => m.DispenceryItem.DispenceryItemQuantity)
+        <button type="submit" class="btn btn-primary">Save</button>
+    }
+</section>

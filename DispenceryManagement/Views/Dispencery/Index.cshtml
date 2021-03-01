@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DispenceryManagement.Models.DispenceryItems>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
+}
+<section class="hoc container clear">
+
+    <h2>Dispencery Items</h2>
+    @if (User.IsInRole("Doctor") || User.IsInRole("Assitant_Doctor") || User.IsInRole("Nurse_Head") || User.IsInRole("Nurse"))
+    {
+        <p>
+            @Html.ActionLink("New Dispencery Item", "New", "Dispencery", null, new { @class = "btn btn-primary" })
+        </p>
+    }
+
+
+    @if (!Model.Any())
+    {
+        <p>We don't have any dispencery item yet.</p>
+    }
+    else
+    {
+        <table id="dispenceryItems" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Dispencery Item</th>
+                    <th>Dispencery Type</th>
+                    <th>Item Type</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var DispenceryItem in Model)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(DispenceryItem.DispenceryItemName, "Details", "Dispencery", new { id = DispenceryItem.Id }, null)</td>
+
+                        @if(DispenceryItem.IsGeneric == true)
+                        {
+                            <td>Generic</td>
+                        }
+                        else
+                        {
+                            <td>Non-Generic</td>
+                        }
+
+                        <td>@DispenceryItem.DispenceryItemType</td>
+                        <td><button data-dispencery-id="@DispenceryItem.Id" class="btn-link js-delete">Delete</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</section>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#dispenceryItems").DataTable();
+
+            $("#dispenceryItems").on("click",".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete this dispencery item ?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/dispenceryItems/" + button.attr("data-dispencery-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

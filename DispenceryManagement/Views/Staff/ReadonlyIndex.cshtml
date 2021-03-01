@@ -1,0 +1,42 @@
+﻿@model IEnumerable<DispenceryManagement.Models.Patient>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hoc container clear">
+    <h2>Staff</h2>
+    @if (!Model.Any())
+    {
+        <p>We don't have any customers yet.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover" id="StaffListTable">
+            <thead>
+                <tr>
+                    <th>Staff Members</th>
+                    <th>Staff Designation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var staff in Model)
+                {
+                    <tr>
+                        <td>@staff.Name</td>
+                        <td>@staff.AssignedRoleName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#StaffListTable").DataTable();
+            });
+    </script>
+}
+

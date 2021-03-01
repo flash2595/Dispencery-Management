@@ -1,0 +1,163 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "New Order";
+}
+<section class="hoc container clear">
+    <h2>New Course Order</h2>
+
+    <form id="purchaseOrder" onreset="resetHandler();">
+        <div class="form-group">
+            <label>Patient Name</label>
+            <div class="">
+                <input id="patientName" data-rule-validPatient="true" required  type="text" value="" class="form-control" style="width:100%;" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Dispencery Item Quantity"</label>
+            <div class="">
+                <input id="dispenceryQunatity" step="1" type="number" min="1" max="10" value="1" onkeydown="return false" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Dispencery Item Name</label>
+            <div class="">
+                <input id="dispenceryName" data-rule-atLeastOneItem="true"  type="text" value="" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <ul id="dispenceryItems" class="list-group"></ul>
+            </div>
+        </div>
+
+        <input type="hidden" id="memberId" name="memberId" value="">
+        <button class=" btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-primary" onclick="">Reset</button>
+    </form>
+
+</section>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function resetHandler() {
+            $("#dispenceryItems").empty();
+        }
+
+        
+        $(document).ready(function () {
+
+            var vm = {
+                dispenceryItemName: [],
+                dispenceryItemQuantity: [],
+                Num: []
+            };            
+
+            var PatientNames = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/api/patients?id=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#patientName').typeahead({
+                minLength: 3,
+                highLight: true
+            }, {
+                name: 'PatientNames',
+                display: 'name',
+                limit: 5,
+                source: PatientNames
+            }).on("typeahead:select", function (e, PatientName) {
+                vm.patientName = PatientName.name;
+                $("#memberId").val(PatientName.membershipTypeId);
+                PopulateDispenceryItems();
+                document.getElementById('dispenceryName').style.width = '100%';
+            });
+
+            function PopulateDispenceryItems() {
+                var id = document.getElementById("memberId").value;
+
+                var DispenceryItemNames = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('dispenceryItemName'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    remote: {
+                        url: '/api/dispenceryitems?isgeneric=' + id + '&id=%QUERY',
+                        wildcard: '%QUERY'
+                    }
+                });
+
+                $('#dispenceryName').typeahead({
+                    minLength: 1,
+                    highLight: true
+                }, {
+                    name: 'DispenceryItemName',
+                    display: 'dispenceryItemName',
+                    limit: 5,
+                    source: DispenceryItemNames
+                }).on("typeahead:select", function (e, DispenceryItemNames) {
+                    $('#dispenceryItems')
+                        .append("<table><tr><td>"
+                            + "Dispencery Item</td><td>Quantity</td></tr>"
+                            + "<tr><td><li class='list-group-item'>"
+                            + DispenceryItemNames.dispenceryItemName
+                            + "</td></li><td><li class= 'list-group-item'><text>"
+                            + $("input#dispenceryQunatity").val() + "</text></td></tr></li></table>");
+
+                    vm.dispenceryItemName.push(DispenceryItemNames.dispenceryItemName);
+                    vm.dispenceryItemQuantity.push($("input#dispenceryQunatity").val());
+
+                    $('#dispenceryName').typeahead("val", "");
+                    $('input#dispenceryQunatity').val("1");
+                });
+
+                $.validator.addMethod("validPatient", function () {
+                    return vm.patientName && vm.patientName !== 0;
+                }, "Please select a valid patient.");
+
+                $.validator.addMethod("atLeastOneItem", function () {
+                    return vm.movieIds.length > 0;
+                }, "Please select at least one Item.");
+
+                $("#purchaseOrder").validate({
+                    submitHandler: function () {
+                        $.ajax({
+                            url: "/api/purchaseOrder",
+                            method: "post",
+                            data: vm
+                        })
+                            .done(function () {
+                                toastr.success("Patient Course Registred Succesfully.");
+
+                                $("#patientName").typeahead("val", "");
+                                $("#dispenceryName").typeahead("val", "");
+                                $("#dispenceryItems").empty();
+                                vm = { movieIds: [] };
+                                validator.resetForm();
+                            })
+                            .fail(function () {
+                                toastr.error("Something Went Wrong!");
+                            });
+                    }
+                });
+
+                //form submition start
+                $("#purchaseOrder").submit(function (e) {
+                    e.preventDefault();
+
+
+                });
+                //form submition end
+
+
+            }
+
+        });
+    </script>
+}

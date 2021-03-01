@@ -1,0 +1,74 @@
+﻿@model DispenceryManagement.ViewModel.CustomerFormViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hoc container clear">
+    <h2>New User</h2>
+
+    @using (Html.BeginForm("Save", "Patient"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Patients.Name, htmlAttributes: new { @class = "LabelCSSTop" })
+            @Html.TextBoxFor(m => m.Patients.Name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Patients.DateOfBirth, htmlAttributes: new { @class = "LabelCSSTop" })
+            @Html.TextBoxFor(m => m.Patients.DateOfBirth, "{0:d MMM yyyy}", new { @class = "form-control", placeholder = "d MMM yyyy" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Patients.Address, htmlAttributes: new { @class = "LabelCSSTop" })
+            @Html.TextBoxFor(m => m.Patients.Address, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Patient", htmlAttributes: new { @class = "LabelCSSTop" })
+            @Html.RadioButtonFor(m => m.Patients.IsSubscribed, true, htmlAttributes: new { onclick = "MembershipFunction()" })
+            @Html.Label("Staff Member", htmlAttributes: new { @class = "LabelCSSTop" })
+            @Html.RadioButtonFor(m => m.Patients.IsSubscribed, false, htmlAttributes: new { onclick = "AssignedRoleFunction()" })
+        </div>
+        <div id="Patients_MembershipTypeId" class="form-group" style="display:none">
+            @Html.LabelFor(m => m.Patients.MembershipTypeId)
+            @Html.DropDownListFor(m => m.Patients.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "MedicineType"), "Select Membership Type", new { @class = "form-control" })
+        </div>
+        <div id="Patients_AssignedRoleName" class="form-group" style="display:none">
+            @Html.LabelFor(m => m.Patients.AssignedRoleName)
+            @Html.DropDownListFor(m => m.Patients.AssignedRoleName, new SelectList(Model.StaffRoles, "RoleName", "RoleName"), "Select Role Type", new { @class = "form-control" })
+        </div>
+
+        @Html.HiddenFor(m => m.Patients.Id)
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="reset" class="btn btn-primary">Reset</button>
+    }
+
+    <script type="text/javascript">
+        function MembershipFunction() {
+            var x = document.getElementById("Patients_MembershipTypeId");
+            var y = document.getElementById("Patients_AssignedRoleName");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+                y.style.display = "block";
+            }
+        }
+
+        function AssignedRoleFunction() {
+            var x = document.getElementById("Patients_AssignedRoleName");
+            var y = document.getElementById("Patients_MembershipTypeId");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+                y.style.display = "block";
+            }
+        }
+    </script>
+</section>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Patients_DateOfBirth").datepicker();
+    });
+</script>

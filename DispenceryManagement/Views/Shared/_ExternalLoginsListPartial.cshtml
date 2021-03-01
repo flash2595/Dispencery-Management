@@ -1,0 +1,33 @@
+﻿@model DispenceryManagement.Models.ExternalLoginListViewModel
+@using Microsoft.Owin.Security
+
+@{
+    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+    if (loginProviders.Count() == 0)
+    {
+        <div class="col-sm-7">
+            <ul>
+                <li>There are no external authentication services configured.</li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl, id = "ExternalLoginForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div id="socialLoginList">
+                <ul>
+                    @foreach (AuthenticationDescription p in loginProviders)
+                    {
+                        <li><button class="btn btn-success btn-round" style="border-radius:20px" type="submit" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button></li>
+                        @*<div id="@p.AuthenticationType" value="@p.AuthenticationType" onClick="document.forms['ExternalLoginForm'].submit();"
+                             class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with" 
+                             data-layout="rounded" data-auto-logout-link="false" data-use-continue-as="false"></div>*@
+                    }
+                </ul>
+            </div>
+        }
+    }
+}
+@Styles.Render("~/Content/Site.css")

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<DispenceryManagement.Models.Patient>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="hoc container clear">
+    <h2>Patients</h2>
+    @if (!Model.Any())
+    {
+        <p>We don't have any customers yet.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Medicine Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model)
+                {
+                    <tr>
+                        <td>@customer.Name</td>
+                        <td>@customer.MembershipTypeCustomer.MedicineType</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

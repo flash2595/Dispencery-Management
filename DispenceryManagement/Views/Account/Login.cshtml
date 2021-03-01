@@ -1,0 +1,97 @@
+﻿@using DispenceryManagement.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Dispensary Login Page</title>
+
+    <link rel="shortcut icon" href="/images/fav.jpg">
+    <link rel="stylesheet" href="/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/fontawsom-all.min.css">
+    <link rel="stylesheet" type="text/css" href="/Content//style.css" />
+</head>
+
+<body>
+    <style>
+        body {
+            background-image: url('/images/bgimage.jpeg');
+            background-size: fill;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v9.0&appId=1864376657060746&autoLogAppEvents=1" nonce="hg676u4Q"></script>
+    <div class="container-fluid ">
+        <div class=" no-pdding login-box">
+            <div class="row no-margin w-100 bklmj">
+                <div class="col-lg-6 col-md-6 log-det">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+
+                        <h2>Login</h2>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="text-box-cont">
+                            <div class="input-group mb-3">
+
+                                @Html.TextBoxFor(m => m.UserName, new { placeholder = "User Name", @class = "form-control", aria_label = "Username", aria_describedby = "basic-addon2", required = "required", style="font-size:1.3rem" })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-group mb-3">
+
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", aria_label = "Username", aria_describedby = "basic-addon2", required = "required", style = "font-size:1.3rem" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-group mb-3">
+                                @Html.CheckBoxFor(m => m.RememberMe, new { style = "margin: 5px 5px 5px 0px;" })
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                            <div class="row no-margin">
+                                <p class="forget-p">
+                                    @Html.ActionLink("Register as a new user", "Register", null, new { style = "color: blue;text-decoration: underline;" })
+                                </p>
+                            </div>
+                            <div class="right-bkij mb-3">
+                                <button type="submit" class="btn btn-success btn-round" style="font-size:1.3rem">Login</button>
+                            </div>
+                            <br>
+                            <div class="row linkoi">
+                                <div class="col-sm-5">
+                                    <p>Or login with</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <section id="socialLoginForm">
+                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    </section>
+
+                </div>
+                <div class="col-lg-6 col-md-6 box-de">
+                    <div class="ditk-inf">
+                        <h2 class="w-100">Welcome  </h2>
+                        <p>
+                            Dispensary Management Cdac Project<br> On Behalf of:-
+                            MET-BANDRA
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="/Script/jquery.min.js"></script>
+<script src="/Script/popper.min.js"></script>
+<script src="/Script/bootstrap.min.js"></script>
+<script src="/Script/script.js"></script>
+
+</html>
+

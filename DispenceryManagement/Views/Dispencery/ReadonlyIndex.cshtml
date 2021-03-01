@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DispenceryManagement.Models.DispenceryItems>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="hoc container clear">
+
+    <h2>Dispencery Items</h2>
+
+    @if (!Model.Any())
+    {
+        <p>We don't have any dispencery item yet.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover" id="dispenceryItems">
+            <thead>
+                <tr>
+                    <th>Dispencery Item</th>
+                    <th>Item Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var DispenceryItem in Model)
+                {
+                    <tr>
+                        <td>@DispenceryItem.DispenceryItemName</td>
+                        <td>@DispenceryItem.DispenceryItemType</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</section>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#dispenceryItems").DataTable();
+            });
+    </script>
+}
